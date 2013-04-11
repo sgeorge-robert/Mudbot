@@ -92,6 +92,8 @@ TIMER * (*get_timers)( );
 int     (*get_timer)( );
 TIMER * (*add_timer)( const char *name, float delay, void (*cb)( TIMER *self ), int d0, int d1, int d2 );
 void    (*del_timer)( const char *name );
+TIMER * (*get_timer_by_name)( const char *name );
+double     (*get_timer_time_left)( TIMER *timer );
 
 
 
@@ -141,6 +143,8 @@ int	(*c_close)( int fd );
    get_timer = self->get_func( "get_timer" ); \
    add_timer = self->get_func( "add_timer" ); \
    del_timer = self->get_func( "del_timer" ); \
+   get_timer_by_name = self->get_func( "get_timer_by_name" ); \
+   get_timer_time_left = self->get_func( "get_timer_time_left" ); \
    /* Networking */ \
    get_descriptors = self->get_func( "get_descriptors" ); \
    mb_connect = self->get_func( "mb_connect" ); \
@@ -150,4 +154,3 @@ int	(*c_close)( int fd );
    c_read = self->get_func( "c_read" ); \
    c_write = self->get_func( "c_write" ); \
    c_close = self->get_func( "c_close" );
-

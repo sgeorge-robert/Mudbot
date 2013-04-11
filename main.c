@@ -192,6 +192,8 @@ TIMER *add_timer( const char *name, float delay, void (*cb)( TIMER *self ), int 
 void del_timer( char *name );
 void unlink_timer( TIMER *timer );
 void free_timer( TIMER *timer );
+TIMER *get_timer_by_name( const char *name );
+double get_timer_time_left( TIMER *timer );
 
 
 /* Networking */
@@ -431,6 +433,8 @@ void *get_function( char *name )
 		{ "get_timer", get_timer },
 		{ "add_timer", add_timer },
 		{ "del_timer", del_timer },
+		{ "get_timer_by_name", get_timer_by_name },
+		{ "get_timer_time_left", get_timer_time_left },
 		/* Networking */
 		{ "get_descriptors", get_descriptors },
 		{ "mb_connect", mb_connect },
@@ -1326,7 +1330,6 @@ void module_init_data( )
 	mod_section = NULL;
 }
 
-
 /* A fuction which ignores unprintable characters. */
 void strip_unprint( char *string, char *dest )
 {
@@ -1685,6 +1688,35 @@ int get_timer( )
 	return usec + ( sec * 1000000 );
 }
 
+double get_timer_time_left( TIMER *timer )
+{
+	struct timeval now;
+	int usec, sec;
+
+	if ( timer == NULL )
+		return -1;
+
+	gettimeofday( &now, NULL );
+
+	sec = (int)(timer->fire_at_sec - now.tv_sec);
+	usec = (int)(timer->fire_at_usec - now.tv_usec);
+
+	if ( usec < 0 )
+		usec += 1000000, sec -= 1;
+
+   return sec + (usec / 1000000.0 );
+}
+
+TIMER *get_timer_by_name( const char *name )
+{
+   TIMER *t;
+
+   for ( t = timers; t; t = t->next )
+	   if ( !strcmp( t->name, name ) )
+		   return t;
+
+   return NULL;
+}
 
 void add_descriptor( DESCRIPTOR *desc )
 {

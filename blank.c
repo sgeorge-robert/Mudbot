@@ -1,12 +1,17 @@
+<<<<<<< HEAD
 /* Blank Module, that does absolutely nothing. */
 
 #define BLANK_ID "$Name: Release_6 $ $Id: blank.c,v 3.1 2005/12/08 18:02:51 andreivasiliu Exp $"
 
 /* #include <...> */
+=======
+#define I_BLANK_ID "$Name:  $ $Id: i_blank.c,v 1.0 "__DATE__" blank Exp $"
+>>>>>>> Added two new timer functions: get_timer_by_name and get_timer_time_left.
 
 #include "module.h"
 
 
+<<<<<<< HEAD
 int blank_version_major = 0;
 int blank_version_minor = 0;
 
@@ -40,10 +45,43 @@ ENTRANCE( blank_module_register )
    self->update_modules = NULL;
    self->update_timers = NULL;
    self->debugf = NULL;
+=======
+// Globals
+
+int blank_version_major = 1;
+int blank_version_minor = 0;
+
+char *i_blank_id = I_BLANK_ID "\r\n" HEADER_ID "\r\n" MODULE_ID "\r\n";
+
+/* Here we register our functions. */
+
+void i_blank_module_init_data( );
+void i_blank_module_unload( );
+void i_blank_process_server_line( LINE *line );
+void i_blank_process_server_prompt( LINE *line );
+int  i_blank_process_client_aliases( char *cmd );
+void i_blank_process_server_gmcp( char *gmcp );
+
+
+ENTRANCE( i_blank_module_register )
+{
+   self->name = _strdup( "Blank" );
+   self->version_major = blank_version_major;
+   self->version_minor = blank_version_minor;
+   self->id = i_blank_id;
+
+   self->init_data = i_blank_module_init_data;
+   self->unload = i_blank_module_unload;
+   self->process_server_line = i_blank_process_server_line;
+   self->process_server_prompt = i_blank_process_server_prompt;
+   self->process_server_gmcp = i_blank_process_server_gmcp;
+   self->process_client_aliases = i_blank_process_client_aliases;
+>>>>>>> Added two new timer functions: get_timer_by_name and get_timer_time_left.
    
    GET_FUNCTIONS( self );
 }
 
+<<<<<<< HEAD
 
 
 void blank_init_data( )
@@ -146,3 +184,60 @@ char *blank_build_custom_prompt( )
 }
 */
 
+=======
+int i_blank_process_client_aliases( char *szLine )
+{
+	return 0;
+}
+
+void i_blank_process_server_gmcp( char *gmcp)
+{
+
+}
+
+void i_blank_process_server_line( LINE *line )
+{
+	print_buffer_prefix();
+
+	// process the raw text
+	process_line_raw( line->raw_line);
+
+	// process the regular text
+	process_line( line->line);
+}
+
+void i_blank_process_server_prompt( LINE *line )
+{
+	print_buffer_prefix();
+	// process prompt triggers
+	process_prompt( line->line);
+	print_buffer();
+}
+
+void i_blank_module_init_data( )
+{
+
+}
+
+void i_blank_module_unload()
+{
+
+}
+
+// main function
+void process_line( char *line )
+{
+	DEBUG("i_blank_process_line");
+}
+
+void process_line_raw( char *line )
+{
+	DEBUG("i_blank_process_line");
+}
+
+// process prompt
+void process_prompt( char *line )
+{
+	DEBUG("i_blank_process_line");
+}
+>>>>>>> Added two new timer functions: get_timer_by_name and get_timer_time_left.
