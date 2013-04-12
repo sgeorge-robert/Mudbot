@@ -90,7 +90,7 @@ void	(*del_timer)( char *name ); */
 /* Timers */
 TIMER * (*get_timers)( );
 int     (*get_timer)( );
-TIMER * (*add_timer)( const char *name, float delay, void (*cb)( TIMER *self ), int d0, int d1, int d2 );
+TIMER * (*add_timer)( const char *name, double delay, void (*cb)( TIMER *self ), int d0, int d1, int d2 );
 void    (*del_timer)( const char *name );
 TIMER * (*get_timer_by_name)( const char *name );
 double     (*get_timer_time_left)( TIMER *timer );
